@@ -1,4 +1,5 @@
-from os import environ, path
+from os import environ
+from flask import url_for
 
 class Config(object):
     
@@ -26,4 +27,4 @@ class DevConfig(Config):
     DEBUG = True
     SHOW_DIALOG = True
     FLASK_ENV = "development"
-    REDIRECT_URI = "/login"
+    REDIRECT_URI = "http://127.0.0.1:5000/auth/login"

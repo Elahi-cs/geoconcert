@@ -44,7 +44,7 @@ def login():
         user = spotify_client.me()
     except spotipy.exceptions.SpotifyException:
         error = "Login failed."
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
 
     username = user["display_name"]
     session["logged_in"] = True
@@ -74,7 +74,7 @@ def get_user_cache():
     return caches_folder + session.get('uuid')
 
 def get_cache_file_handler(cache_path):
-    spotipy.cache_handler.CacheFileHandler(
+    return spotipy.cache_handler.CacheFileHandler(
         cache_path=cache_path
         )
 

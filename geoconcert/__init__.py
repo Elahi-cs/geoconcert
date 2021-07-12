@@ -11,10 +11,10 @@ def create_app(test_config=None):
     will be returned.
     """
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(config.DevConfig)
     
-    if test_config is not None:
-        # load the test config if passed in
+    if test_config is None:
+        app.config.from_object(config.DevConfig)
+    else:
         app.config.from_mapping(test_config)
 
     # ensure the instance folder exists
