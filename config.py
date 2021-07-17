@@ -10,7 +10,7 @@ class Config(object):
     # SPOTIFY CONFIG
     CLIENT_ID = environ.get("SPOTIFY_CLIENT_ID")
     CLIENT_SECRET = environ.get("CLIENT_SECRET")
-    SCOPE = 'user_top_read'
+    SCOPE = 'user-top-read'
 
 class ProdConfig(Config):
     """Deployment configuration."""

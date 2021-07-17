@@ -51,8 +51,6 @@ def login():
 
     if error:
         flash(error)
-    else:
-        flash(f"Welcome, {username}.")
 
     return redirect(url_for("index"))
 
