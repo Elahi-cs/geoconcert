@@ -44,4 +44,9 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
+    from . import maps
+    # maps references the main application behavior
+    # (couldn't be called app for obvious reasons)
+    app.register_blueprint(maps.bp)
+
     return app

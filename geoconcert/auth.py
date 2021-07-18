@@ -15,6 +15,16 @@ caches_folder = './.spotify_caches/'
 if not os.path.exists(caches_folder):
     os.makedirs(caches_folder)
 
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if not session.get("logged_in"):
+            return redirect(url_for("auth.login"))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
 @bp.route('/login')
 def login():
     """
@@ -25,6 +35,7 @@ def login():
     error = None
     if not session.get("uuid"):
         session['uuid'] = str(uuid.uuid4())
+        session['logged_in'] = False
 
     cache_handler = get_cache_file_handler(get_user_cache())
 
@@ -32,11 +43,12 @@ def login():
 
     if request.args.get("code"):
         auth_manager.get_access_token(request.args.get("code"))
-        return redirect(url_for("index"))
+        return redirect(url_for("auth.index"))
 
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         auth_url = auth_manager.get_authorize_url()
-        return render_template("auth/login.html", auth_url=auth_url)
+        return render_template("auth/login.html", auth_url=auth_url, 
+                        logged=session['logged_in'])
 
     spotify_client = spotipy.Spotify(auth_manager=auth_manager)
 
@@ -52,7 +64,7 @@ def login():
     if error:
         flash(error)
 
-    return redirect(url_for("index"))
+    return redirect(url_for("auth.index"))
 
 @bp.route('/logout')
 def logout():
@@ -66,7 +78,19 @@ def logout():
         print("Error: %s - %s." % (error.filename, error.strerror))
         flash("Error signing out, please try again.")
 
-    return redirect(url_for("index"))
+    return redirect(url_for("auth.index"))
+
+@bp.route('/')
+@login_required
+def index():
+    """
+    Direct the user to the application.
+
+    While this seems like a redundant view, it is placed here to streamline
+    the amount of places for a user to be directed to the application, and
+    ensures that the auth blueprint is behaving correctly.
+    """
+    return redirect(url_for('maps.geoconcert'))
 
 def get_user_cache():
     return caches_folder + session.get('uuid')
@@ -93,13 +117,3 @@ def get_auth_manager(cache_handler):
         cache_handler=cache_handler,
         show_dialog=True
     )
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if not session.get("logged_in"):
-            return redirect(url_for("auth.login"))
-
-        return view(**kwargs)
-
-    return wrapped_view
