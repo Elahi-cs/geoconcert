@@ -15,7 +15,7 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="{{ url_for('auth.login') }}">
             <!-- VERY PROVISIONAL LOGO -->
@@ -31,11 +31,13 @@
               </li>
             </ul>
           </div>
-          <a class="d-flex nav-link" id="login" href="{{ url_for('auth.login')}}" class="btn btn-success rounded-pill my-2 py-2 pe-4">
+          {% if session.logged_in %}
+          <a class="d-flex nav-link" id="login" href="{{ url_for('auth.logout')}}" class="btn btn-success rounded-pill my-2 py-2 pe-4">
             <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='Spotify_Icon_RGB_Black.png') }}" alt="Spotify Icon" width="21px" height="21px" class="ms-1 me-2">LOG IN
+                <img src="{{ url_for('static', filename='Spotify_Icon_RGB_Black.png') }}" alt="Spotify Icon" width="21px" height="21px" class="ms-1 me-2">LOG OUT
             </div>
           </a>
+          {% endif %}
         </div>
       </nav>  
     <title>{% block title %}{% endblock title %}</title>

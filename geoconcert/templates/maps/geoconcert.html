@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Geoconcert
+{% endblock title %}
+
+{% block content %}
+<ul>
+    {% for line in top_artists['items'] %}
+        <li>
+            {{ line }}
+        </li>   
+    {% endfor %}
+</ul>
+{% endblock content %}

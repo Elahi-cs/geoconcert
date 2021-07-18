@@ -50,7 +50,9 @@ def login():
         return render_template("auth/login.html", auth_url=auth_url, 
                         logged=session['logged_in'])
 
-    spotify_client = spotipy.Spotify(auth_manager=auth_manager)
+    spotify_client = get_spotify_client(auth_manager=auth_manager)
+
+    current_app.spotify_client = spotify_client
 
     try:
         user = spotify_client.me()
@@ -90,7 +92,11 @@ def index():
     the amount of places for a user to be directed to the application, and
     ensures that the auth blueprint is behaving correctly.
     """
-    return redirect(url_for('maps.geoconcert'))
+    if session["logged_in"]:
+        return redirect(url_for('maps.geoconcert'))
+    else:
+        return redirect(url_for('auth.login'))
+
 
 def get_user_cache():
     return caches_folder + session.get('uuid')
@@ -117,3 +123,6 @@ def get_auth_manager(cache_handler):
         cache_handler=cache_handler,
         show_dialog=True
     )
+
+def get_spotify_client(auth_manager):
+    return spotipy.Spotify(auth_manager=auth_manager)
