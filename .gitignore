@@ -16,3 +16,5 @@ dist/
 build/
 *.egg-info/
 .env
+vars.env
+ticketmaster_api_responses.excalidraw

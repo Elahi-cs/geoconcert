@@ -52,6 +52,7 @@ def login():
 
     spotify_client = get_spotify_client(auth_manager=auth_manager)
 
+    #TODO: Find a way to make the client available in all blueprints
     current_app.spotify_client = spotify_client
 
     try:
@@ -116,8 +117,8 @@ def get_auth_manager(cache_handler):
     created each time.
     """
     return spotipy.oauth2.SpotifyOAuth(
-        client_id=current_app.config["CLIENT_ID"],
-        client_secret=current_app.config["CLIENT_SECRET"],
+        client_id=current_app.config["SPOTIFY_CLIENT_ID"],
+        client_secret=current_app.config["SPOTIFY_CLIENT_SECRET"],
         redirect_uri=current_app.config["REDIRECT_URI"],
         scope=current_app.config["SCOPE"],
         cache_handler=cache_handler,

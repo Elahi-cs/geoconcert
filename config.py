@@ -1,6 +1,10 @@
 from os import environ
 from flask import url_for
 
+from dotenv import load_dotenv
+
+load_dotenv("vars.env")
+
 class Config(object):
     
     SESSION_TYPE = "filesystem"
@@ -8,9 +12,14 @@ class Config(object):
     SECRET_KEY = environ['SECRET_KEY']
 
     # SPOTIFY CONFIG
-    CLIENT_ID = environ.get("SPOTIFY_CLIENT_ID")
-    CLIENT_SECRET = environ.get("CLIENT_SECRET")
+    SPOTIFY_CLIENT_ID = environ.get("SPOTIFY_CLIENT_ID")
+    SPOTIFY_CLIENT_SECRET = environ.get("CLIENT_SECRET")
     SCOPE = 'user-top-read'
+
+    # TICKETMASTER CONFIG
+    TICKETMASTER_KEY = environ.get("TICKETMASTER_KEY")
+    TICKETMASTER_SECRET = environ.get("TICKETMASTER_SECRET")
+    TICKETMASTER_ROOT_URL = "https://app.ticketmaster.com/discovery/v2/events"
 
 class ProdConfig(Config):
     """Deployment configuration."""
