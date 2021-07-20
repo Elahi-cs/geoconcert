@@ -21,6 +21,9 @@ class Config(object):
     TICKETMASTER_SECRET = environ.get("TICKETMASTER_SECRET")
     TICKETMASTER_ROOT_URL = "https://app.ticketmaster.com/discovery/v2/events"
 
+    # GOOGLE MAPS CONFIG
+    GMAPS_KEY = environ.get("GMAPS_KEY")
+
 class ProdConfig(Config):
     """Deployment configuration."""
 

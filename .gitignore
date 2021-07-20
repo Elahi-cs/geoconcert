@@ -1,7 +1,6 @@
 .venv/
 
-flask_notes.excalidraw
-project_overview.excalidraw
+.notes/
 
 *.pyc
 __pycache__/
@@ -17,4 +16,6 @@ build/
 *.egg-info/
 .env
 vars.env
-ticketmaster_api_responses.excalidraw
+
+geoconcert/tm_sample_response.json
+.spotify_caches/

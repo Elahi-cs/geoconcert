@@ -52,9 +52,6 @@ def login():
 
     spotify_client = get_spotify_client(auth_manager=auth_manager)
 
-    #TODO: Find a way to make the client available in all blueprints
-    current_app.spotify_client = spotify_client
-
     try:
         user = spotify_client.me()
     except spotipy.exceptions.SpotifyException:
@@ -97,7 +94,6 @@ def index():
         return redirect(url_for('maps.geoconcert'))
     else:
         return redirect(url_for('auth.login'))
-
 
 def get_user_cache():
     return caches_folder + session.get('uuid')
