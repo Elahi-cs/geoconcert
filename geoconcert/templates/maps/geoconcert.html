@@ -4,12 +4,26 @@
     Geoconcert
 {% endblock title %}
 
+{% block head %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script>
+    let map;
+
+    function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+    });
+    }
+</script>
+{% endblock head %}
+
 {% block content %}
-<ul>
-    {% for line in top_artists %}
-        <li>
-            {{ line }}
-        </li>   
-    {% endfor %}
-</ul>
+<div id="map"></div>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+  src="https://maps.googleapis.com/maps/api/js?key={{ gmaps_key }}&callback=initMap&libraries=&v=weekly"
+  async
+></script>
 {% endblock content %}
