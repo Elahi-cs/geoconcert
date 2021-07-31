@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Preferences
+{% endblock title %}
+
+{% block content %}
+<div class="mb-3 row">
+    <form method="POST">
+        <input type="date" id="date">
+        {% for artist in top_artists %}
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="{{ artist }}">
+            <label class="form-check-label" for="flexCheckChecked">
+                {{ artist }}
+            </label>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+    </form>
+</div>
+{% endblock content %}
