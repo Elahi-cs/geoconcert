@@ -1,6 +1,6 @@
 from flask import (
     Blueprint, flash, g, render_template, redirect, request, url_for,
-    current_app
+    current_app, session
 )
 from werkzeug.exceptions import abort
 
@@ -14,9 +14,17 @@ bp = Blueprint('maps', __name__)
 @bp.route("/maps/preferences", methods=('GET', 'POST'))
 @login_required
 def preferences():
-    top_artists = get_top_artists()
+    # Avoid making an API call if the user returns to the preferences page
+    if session.get("top_artists") is None:
+        top_artists = get_top_artists()
+        session["top_artists"] = top_artists
+    else:
+        top_artists = session["top_artists"]
+
     if request.method == 'POST':
-        return redirect(url_for('geoconcert'))
+        selected_artists = request.form.getlist('artists')
+        session["artists"] = selected_artists
+        return redirect(url_for('maps.geoconcert'))
 
     return render_template("maps/preferences.html", top_artists=top_artists)
 
@@ -28,29 +36,51 @@ def geoconcert():
     tm_api_key = current_app.config["TICKETMASTER_KEY"]
     gmaps_key = current_app.config["GMAPS_KEY"]
     
-    top_artists = get_top_artists()
+    top_artists = session["artists"]
+    concert_locations = {}
+    selected_artist = top_artists[0]
 
     print(top_artists)
 
-    payload = {'keyword': top_artists[0]}
+    payload = {'keyword': selected_artist}
 
     response = requests.get(f"{tm_root_url}.json?apikey={tm_api_key}",
                             params=payload)
 
     response_content = response.json()
 
-    locations = []
-
     if response_content['page']['totalElements'] == 0:
-        print(f"No events found!")
+        print(f"No events found")
     else:
         events = response_content["_embedded"]["events"]
         for event in events:
-            locations.append(event["_embedded"]["venues"][0]["location"])        
+            concert_locations[selected_artist] = {}
+            coordinates = event["_embedded"]["venues"][0]["location"]
+            concert_locations[selected_artist]["lng"] = \
+                float(coordinates["longitude"])
+            concert_locations[selected_artist]["lat"] = \
+                float(coordinates["latitude"])
 
-    print(locations)
+    print(concert_locations)
 
-    return render_template("maps/geoconcert.html", top_artists=top_artists,
+    """
+    This is the code for the actual behavior. Since it makes an API call
+    for each artist, I will be continuing development with a single call instead, 
+    and then replace current code with this one when testing and in production.
+    """
+    # for artist in top_artists:
+    #     payload = {'keyword': artist}
+    #     response = requests.get(f"{tm_root_url}.json?apikey={tm_api_key}",
+    #                             params=payload)
+    #     response_content = response.json()
+    #     if response_content['page']['totalElements'] == 0:
+    #         print(f"No events found")
+    #     else:
+    #         events = response_content["_embedded"]["events"]
+    #         for event in events:
+    #             concert_locations[artist] = (event["_embedded"]["venues"][0]["location"]) 
+
+    return render_template("maps/geoconcert.html", concert_locations=concert_locations,
                             gmaps_key=gmaps_key)
 
 

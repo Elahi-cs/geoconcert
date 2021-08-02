@@ -91,7 +91,7 @@ def index():
     ensures that the auth blueprint is behaving correctly.
     """
     if session["logged_in"]:
-        return redirect(url_for('maps.geoconcert'))
+        return redirect(url_for('maps.preferences'))
     else:
         return redirect(url_for('auth.login'))
 
