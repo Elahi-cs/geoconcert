@@ -31,7 +31,9 @@ def preferences():
 @bp.route("/maps/geoconcert")
 @login_required
 def geoconcert():
-
+# TODO: The code should make an API call for each artist, but I will be continuing 
+# development with a single call instead, and then replace current code with 
+# one that makes the proper amount of calls when testing and in production.
     tm_root_url = current_app.config["TICKETMASTER_ROOT_URL"]
     tm_api_key = current_app.config["TICKETMASTER_KEY"]
     gmaps_key = current_app.config["GMAPS_KEY"]
@@ -53,35 +55,19 @@ def geoconcert():
         print(f"No events found")
     else:
         events = response_content["_embedded"]["events"]
+        concert_locations[selected_artist] = {"locations": []}
         for event in events:
-            concert_locations[selected_artist] = {}
+            location = {}
             coordinates = event["_embedded"]["venues"][0]["location"]
-            concert_locations[selected_artist]["lng"] = \
-                float(coordinates["longitude"])
-            concert_locations[selected_artist]["lat"] = \
-                float(coordinates["latitude"])
+            location["lng"] = float(coordinates["longitude"])
+            location["lat"] = float(coordinates["latitude"])
+            concert_locations[selected_artist]["locations"].append(location)
 
     print(concert_locations)
 
-    """
-    This is the code for the actual behavior. Since it makes an API call
-    for each artist, I will be continuing development with a single call instead, 
-    and then replace current code with this one when testing and in production.
-    """
-    # for artist in top_artists:
-    #     payload = {'keyword': artist}
-    #     response = requests.get(f"{tm_root_url}.json?apikey={tm_api_key}",
-    #                             params=payload)
-    #     response_content = response.json()
-    #     if response_content['page']['totalElements'] == 0:
-    #         print(f"No events found")
-    #     else:
-    #         events = response_content["_embedded"]["events"]
-    #         for event in events:
-    #             concert_locations[artist] = (event["_embedded"]["venues"][0]["location"]) 
-
-    return render_template("maps/geoconcert.html", concert_locations=concert_locations,
-                            gmaps_key=gmaps_key)
+    return render_template("maps/geoconcert.html", 
+                concert_locations=concert_locations[selected_artist]["locations"],
+                gmaps_key=gmaps_key)
 
 
 def get_top_artists(all=False):
