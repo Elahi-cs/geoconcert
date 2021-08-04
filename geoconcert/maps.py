@@ -39,7 +39,7 @@ def geoconcert():
     gmaps_key = current_app.config["GMAPS_KEY"]
     
     top_artists = session["artists"]
-    concert_locations = {}
+    concerts_info = {}
     selected_artist = top_artists[0]
 
     print(top_artists)
@@ -55,18 +55,32 @@ def geoconcert():
         print(f"No events found")
     else:
         events = response_content["_embedded"]["events"]
-        concert_locations[selected_artist] = {"locations": []}
-        for event in events:
+        concerts_info[selected_artist] = {
+                        "locations": [],
+                        "concerts": [],
+                        }
+        for event in events: 
+            # Append the coordinates of the event in a list of locations
+            # for the GMaps marker locations
             location = {}
             coordinates = event["_embedded"]["venues"][0]["location"]
             location["lng"] = float(coordinates["longitude"])
             location["lat"] = float(coordinates["latitude"])
-            concert_locations[selected_artist]["locations"].append(location)
+            concerts_info[selected_artist]["locations"].append(location)
 
-    print(concert_locations)
+            # Get additional information for each event for the markers' info
+            # window
+            concert = {}
+            concert["venue"] = event['_embedded']['venues'][0]['name']
+            concert["location"] = location
+            concert["city"] = event['_embedded']['venues'][0]['city']['name']
+            concert["link"] = event["url"]
+            concerts_info[selected_artist]["concerts"].append(concert)
+
+    print(concerts_info)
 
     return render_template("maps/geoconcert.html", 
-                concert_locations=concert_locations[selected_artist]["locations"],
+                concert_locations=concerts_info[selected_artist]["locations"],
                 gmaps_key=gmaps_key)
 
 
