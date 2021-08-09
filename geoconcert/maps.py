@@ -81,7 +81,7 @@ def geoconcert():
     print(concerts_info)
 
     return render_template("maps/geoconcert.html", 
-                concert_locations=concerts_info[selected_artist]["locations"],
+                concerts_info=concerts_info,
                 gmaps_key=gmaps_key)
 
 
