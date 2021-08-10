@@ -8,59 +8,58 @@ Geoconcert
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
 <script>
-    const concert_info = {{ concerts_info|safe }}
+    const concert_info = {{ concerts_info| safe }}
     ;
 
     const colors = ['black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple',
-                    'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue',
-                    'teal', 'aqua']
+        'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue',
+        'teal', 'aqua']
 
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 3,
             // TODO: Change this! This is VERY provisional
             center: concert_info["Shawn James"].locations[0],
-    });
+        });
 
-    var marker, i, content, infowindow;
-    var markers = [];
-    // Add some markers to the map.
-    // Note: The code uses the JavaScript Array.prototype.map() method to
-    // create an array of markers based on a given "locations" array.
-    // The map() method here has nothing to do with the Google Maps API.
-    // TODO: Wrap this in an external for loop once the code is looping through all
-    // selected artists.
-    for (i = 0; i < concert_info["Shawn James"].concerts.length; i++)
-    {
-        marker = new google.maps.Marker({
-            position: concert_info["Shawn James"].concerts[i].location,
-            label: (i+1).toString(),
-        })
-        markers.push(marker)
-
-        content = '<div id="content">' +
-        '<div id="siteNotice"></div>' +
-        '<center><p>Shawn James<p>' + '<p>@</p>' +
-        '<h3 id="firstHeading" class="firstHeading">' + 
-        concert_info["Shawn James"].concerts[i].venue + '</h3>' +
-        '<div id="bodyContent">' + 
-        '<p>' + concert_info["Shawn James"].concerts[i].city + '</p>' +
-        '<p>' + concert_info["Shawn James"].concerts[i].date + '</p>' +
-        '<p><a href=' + concert_info["Shawn James"].concerts[i].link + '>' +
-        'Link to ticket seller</a></p>' +
-        '</div></div>'   
-        ;
+        var marker, i, content, infowindow;
+        var markers = [];
 
         infowindow = new google.maps.InfoWindow({
-            content: content,
-        })
+            })
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        // TODO: Wrap this in an external for loop once the code is looping through all
+        // selected artists.
+        for (i = 0; i < concert_info["Shawn James"].concerts.length; i++) {
+            marker = new google.maps.Marker({
+                position: concert_info["Shawn James"].concerts[i].location,
+                label: (i + 1).toString(),
+            })
+            markers.push(marker)
 
-        google.maps.event.addListener(marker, 'click', (function(marker) {
-            return function() {
-                infowindow.open(map, marker);
-            }
-        })(marker));
-    }
+            content = '<div id="content">' +
+                '<div id="siteNotice"></div>' + '<center>' +
+                '<h4 id="firstHeading" class="firstHeading">Shawn James</h4>' + '<p>@</p>' +
+                '<p>' + concert_info["Shawn James"].concerts[i].venue + '</p>' +
+                '<div id="bodyContent">' +
+                '<h6>' + concert_info["Shawn James"].concerts[i].city + '</h6>' +
+                '<h6>' + concert_info["Shawn James"].concerts[i].date + '</h6>' +
+                '<p><a href=' + concert_info["Shawn James"].concerts[i].link + '>' +
+                'Link to ticket seller</a></p>' +
+                '</div></div>'
+                ;
+
+
+            google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+                return function () {
+                    infowindow.setContent(content);
+                    infowindow.open(map, marker);
+                };
+            })(marker, content, infowindow));
+        }
 
     // Add a marker clusterer to manage the markers.
     new MarkerClusterer(map, markers, {
