@@ -18,54 +18,55 @@ Geoconcert
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 3,
-            // TODO: Change this! This is VERY provisional
-            center: concert_info["Shawn James"].locations[0],
+            // TODO: Change this! This is VERY provisional. Hardcoding bad.
+            center: { "lng": -1.881852, "lat": 52.475166 },
         });
 
         var marker, i, content, infowindow;
         var markers = [];
 
         infowindow = new google.maps.InfoWindow({
-            })
+        })
         // Add some markers to the map.
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // The map() method here has nothing to do with the Google Maps API.
-        // TODO: Wrap this in an external for loop once the code is looping through all
-        // selected artists.
-        for (i = 0; i < concert_info["Shawn James"].concerts.length; i++) {
-            marker = new google.maps.Marker({
-                position: concert_info["Shawn James"].concerts[i].location,
-                label: (i + 1).toString(),
-            })
-            markers.push(marker)
+        // TODO: Make a system to change the marker color for each artist.
+        for (let selected_artist in concert_info) {
+            for (i = 0; i < concert_info[selected_artist].concerts.length; i++) {
+                marker = new google.maps.Marker({
+                    position: concert_info[selected_artist].concerts[i].location,
+                    label: (i + 1).toString(),
+                })
+                markers.push(marker)
 
-            content = '<div id="content">' +
-                '<div id="siteNotice"></div>' + '<center>' +
-                '<h4 id="firstHeading" class="firstHeading">Shawn James</h4>' + '<p>@</p>' +
-                '<p>' + concert_info["Shawn James"].concerts[i].venue + '</p>' +
-                '<div id="bodyContent">' +
-                '<h6>' + concert_info["Shawn James"].concerts[i].city + '</h6>' +
-                '<h6>' + concert_info["Shawn James"].concerts[i].date + '</h6>' +
-                '<p><a href=' + concert_info["Shawn James"].concerts[i].link + '>' +
-                'Link to ticket seller</a></p>' +
-                '</div></div>'
-                ;
+                content = '<div id="content">' +
+                    '<div id="siteNotice"></div>' + '<center>' +
+                    '<h4 id="firstHeading" class="firstHeading">' + selected_artist + '</h4>' +
+                    '<p>@</p>' +
+                    '<p>' + concert_info[selected_artist].concerts[i].venue + '</p>' +
+                    '<div id="bodyContent">' +
+                    '<h6>' + concert_info[selected_artist].concerts[i].city + '</h6>' +
+                    '<h6>' + concert_info[selected_artist].concerts[i].date + '</h6>' +
+                    '<p><a href=' + concert_info[selected_artist].concerts[i].link + '>' +
+                    'Link to ticket seller</a></p>' +
+                    '</div></div>'
+                    ;
 
-
-            google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
-                return function () {
-                    infowindow.setContent(content);
-                    infowindow.open(map, marker);
-                };
-            })(marker, content, infowindow));
+                google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+                    return function () {
+                        infowindow.setContent(content);
+                        infowindow.open(map, marker);
+                    };
+                })(marker, content, infowindow));
+            }
         }
 
-    // Add a marker clusterer to manage the markers.
-    new MarkerClusterer(map, markers, {
-        imagePath:
-            "{{ url_for('static', filename='images/maps/m') }}",
-    });
+        // Add a marker clusterer to manage the markers.
+        new MarkerClusterer(map, markers, {
+            imagePath:
+                "{{ url_for('static', filename='images/maps/m') }}",
+        });
     }
 
 </script>

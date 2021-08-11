@@ -31,52 +31,49 @@ def preferences():
 @bp.route("/maps/geoconcert")
 @login_required
 def geoconcert():
-# TODO: The code should make an API call for each artist, but I will be continuing 
-# development with a single call instead, and then replace current code with 
-# one that makes the proper amount of calls when testing and in production.
     tm_root_url = current_app.config["TICKETMASTER_ROOT_URL"]
     tm_api_key = current_app.config["TICKETMASTER_KEY"]
     gmaps_key = current_app.config["GMAPS_KEY"]
     
     top_artists = session["artists"]
     concerts_info = {}
-    selected_artist = top_artists[0]
 
     print(top_artists)
 
-    payload = {'keyword': selected_artist}
+    for selected_artist in top_artists:
+        payload = {'keyword': selected_artist}
 
-    response = requests.get(f"{tm_root_url}.json?apikey={tm_api_key}",
-                            params=payload)
+        response = requests.get(f"{tm_root_url}.json?apikey={tm_api_key}",
+                                params=payload)
 
-    response_content = response.json()
+        response_content = response.json()
 
-    if response_content['page']['totalElements'] == 0:
-        print(f"No events found")
-    else:
-        events = response_content["_embedded"]["events"]
-        concerts_info[selected_artist] = {
-                        "locations": [],
-                        "concerts": [],
-                        }
-        for event in events: 
-            # Append the coordinates of the event in a list of locations
-            # for the GMaps marker locations
-            location = {}
-            coordinates = event["_embedded"]["venues"][0]["location"]
-            location["lng"] = float(coordinates["longitude"])
-            location["lat"] = float(coordinates["latitude"])
-            concerts_info[selected_artist]["locations"].append(location)
+        if response_content['page']['totalElements'] == 0:
+            print(f"No events found")
+        else:
+            events = response_content["_embedded"]["events"]
+            concerts_info[selected_artist] = {
+                            "locations": [],
+                            "concerts": [],
+                            }
+            for event in events: 
+                # Append the coordinates of the event in a list of locations
+                # for the GMaps marker locations
+                location = {}
+                coordinates = event["_embedded"]["venues"][0]["location"]
+                location["lng"] = float(coordinates["longitude"])
+                location["lat"] = float(coordinates["latitude"])
+                concerts_info[selected_artist]["locations"].append(location)
 
-            # Get additional information for each event for the markers' info
-            # window
-            concert = {}
-            concert["venue"] = event['_embedded']['venues'][0]['name']
-            concert["location"] = location
-            concert["city"] = event['_embedded']['venues'][0]['city']['name']
-            concert["date"] = event['dates']['start']['localDate']
-            concert["link"] = event["url"]
-            concerts_info[selected_artist]["concerts"].append(concert)
+                # Get additional information for each event for the markers' info
+                # window
+                concert = {}
+                concert["venue"] = event['_embedded']['venues'][0]['name']
+                concert["location"] = location
+                concert["city"] = event['_embedded']['venues'][0]['city']['name']
+                concert["date"] = event['dates']['start']['localDate']
+                concert["link"] = event["url"]
+                concerts_info[selected_artist]["concerts"].append(concert)
 
     print(concerts_info)
 
