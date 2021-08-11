@@ -39,7 +39,8 @@ def geoconcert():
     concerts_info = {}
 
     print(top_artists)
-
+    #TODO: Handle the case where the user doesn't select an artist (better client-side)
+    #TODO: Handle case where no events are found for selected artists
     for selected_artist in top_artists:
         payload = {'keyword': selected_artist}
 

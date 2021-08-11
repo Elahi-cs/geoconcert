@@ -4,18 +4,45 @@
     Preferences
 {% endblock title %}
 
+{% block head %}
+    <script>
+        function requireCheckbox(elementClass) {
+            element=document.getElementsByClassName(elementClass);
+
+            var atLeastOneChecked=false;
+            
+            for (i=0; i<element.length; i++) {
+                if (element[i].checked === true) {
+                    atLeastOneChecked=true;
+                }
+            }
+
+            if (atLeastOneChecked === true) {
+                for (i=0; i<element.length; i++) {
+                    element[i].required = false;
+                }
+            } else {
+                for (i=0; i<element.length; i++) {
+                    element[i].required = true;
+                }
+            }
+        }
+    </script>
+{% endblock head %}
+
 {% block content %}
 <div class="mb-3 row">
     <form method="POST">
         <input type="date" id="date">
-        {% for artist in top_artists %}
         <div class="form-check-inline">
-            <input class="form-check-input" type="checkbox" name="artists" value="{{ artist }}" id="{{ artist }}">
+        {% for artist in top_artists %}
+            <input class="form-check-input" type="checkbox" name="artists" value="{{ artist }}" id="{{ artist }}" onclick="requireCheckbox('form-check-input')">
             <label class="form-check-label" for="flexCheckChecked">
                 {{ artist }}
             </label>
-        </div>
+            <br>
         {% endfor %}
+        </div>
         <button type="submit" class="btn btn-primary mb-3">Submit</button>
     </form>
 </div>

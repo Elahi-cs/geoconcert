@@ -13,7 +13,7 @@ class Config(object):
 
     # SPOTIFY CONFIG
     SPOTIFY_CLIENT_ID = environ.get("SPOTIFY_CLIENT_ID")
-    SPOTIFY_CLIENT_SECRET = environ.get("CLIENT_SECRET")
+    SPOTIFY_CLIENT_SECRET = environ.get("SPOTIFY_CLIENT_SECRET")
     SCOPE = 'user-top-read'
 
     # TICKETMASTER CONFIG
