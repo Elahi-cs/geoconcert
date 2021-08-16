@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{{ url_for('maps.preferences') }}">Go back</a>
+<p>No events found for:</p>
+<ul>
+    {% for artist in top_artists %}
+    <li>{{ artist }}</li>
+    {% endfor %}
+</ul>
+{% endblock content %}

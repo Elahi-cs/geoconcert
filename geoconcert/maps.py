@@ -37,6 +37,7 @@ def geoconcert():
     
     top_artists = session["artists"]
     concerts_info = {}
+    found_event = False
 
     print(top_artists)
     #TODO: Handle the case where the user doesn't select an artist (better client-side)
@@ -50,8 +51,9 @@ def geoconcert():
         response_content = response.json()
 
         if response_content['page']['totalElements'] == 0:
-            print(f"No events found")
+            print(f"No events found for {selected_artist}!")
         else:
+            found_event = True
             events = response_content["_embedded"]["events"]
             concerts_info[selected_artist] = {
                             "locations": [],
@@ -69,6 +71,9 @@ def geoconcert():
 
     print(concerts_info)
 
+    if not found_event:
+        return render_template("maps/no_events.html", top_artists=top_artists)
+    
     return render_template("maps/geoconcert.html", 
                 concerts_info=concerts_info,
                 gmaps_key=gmaps_key)
