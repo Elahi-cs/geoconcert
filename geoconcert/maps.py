@@ -58,22 +58,13 @@ def geoconcert():
                             "concerts": [],
                             }
             for event in events: 
-                # Append the coordinates of the event in a list of locations
-                # for the GMaps marker locations
-                location = {}
-                coordinates = event["_embedded"]["venues"][0]["location"]
-                location["lng"] = float(coordinates["longitude"])
-                location["lat"] = float(coordinates["latitude"])
-                concerts_info[selected_artist]["locations"].append(location)
+                location = get_location_from_event(event)
+                concert = get_concert_info(event, location)
 
-                # Get additional information for each event for the markers' info
-                # window
-                concert = {}
-                concert["venue"] = event['_embedded']['venues'][0]['name']
-                concert["location"] = location
-                concert["city"] = event['_embedded']['venues'][0]['city']['name']
-                concert["date"] = event['dates']['start']['localDate']
-                concert["link"] = event["url"]
+                # Append the information to a dict containing each concert and
+                # location. They will be passed separately to different parts
+                # of the GMaps JavaScript program.
+                concerts_info[selected_artist]["locations"].append(location)
                 concerts_info[selected_artist]["concerts"].append(concert)
 
     print(concerts_info)
@@ -82,6 +73,26 @@ def geoconcert():
                 concerts_info=concerts_info,
                 gmaps_key=gmaps_key)
 
+def get_location_from_event(event):
+    """
+    Append the coordinates of the event in a list of locations for the GMaps
+    marker locations
+    """
+    location = {}
+    coordinates = event["_embedded"]["venues"][0]["location"]
+    location["lng"] = float(coordinates["longitude"])
+    location["lat"] = float(coordinates["latitude"])
+    return location
+
+def get_concert_info(event, location):
+    """Get additional information for each event for the markers' info window"""
+    concert = {}
+    concert["venue"] = event['_embedded']['venues'][0]['name']
+    concert["location"] = location
+    concert["city"] = event['_embedded']['venues'][0]['city']['name']
+    concert["date"] = event['dates']['start']['localDate']
+    concert["link"] = event["url"]
+    return concert
 
 def get_top_artists(all=False):
     """
