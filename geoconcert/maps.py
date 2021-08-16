@@ -11,6 +11,10 @@ from geoconcert.auth import login_required, get_user_cache, get_auth_manager
 
 bp = Blueprint('maps', __name__)
 
+@bp.route("/about")
+def about():
+    return render_template("about.html")
+
 @bp.route("/maps/preferences", methods=('GET', 'POST'))
 @login_required
 def preferences():
