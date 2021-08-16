@@ -23,7 +23,11 @@ def preferences():
 
     if request.method == 'POST':
         selected_artists = request.form.getlist('artists')
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
         session["artists"] = selected_artists
+        session["start_date"] = start_date
+        session["end_date"] = end_date
         return redirect(url_for('maps.geoconcert'))
 
     return render_template("maps/preferences.html", top_artists=top_artists)
@@ -36,12 +40,24 @@ def geoconcert():
     gmaps_key = current_app.config["GMAPS_KEY"]
     
     top_artists = session["artists"]
+    start_date = session["start_date"]
+    end_date = session["end_date"]
+
     concerts_info = {}
+
+    dates_exist = False
     found_event = False
+
+    if start_date and end_date:
+        dates_exist = True
 
     print(top_artists)
     for selected_artist in top_artists:
         payload = {'keyword': selected_artist}
+        if dates_exist:
+            # Format the dates for the TicketMaster API
+            payload["startDateTime"] = start_date + "T00:00:00Z"
+            payload["endDateTime"] = end_date + "T23:59:59Z"
 
         response = requests.get(f"{tm_root_url}.json?apikey={tm_api_key}",
                                 params=payload)
