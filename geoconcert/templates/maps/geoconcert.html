@@ -11,9 +11,7 @@ Geoconcert
     const concert_info = {{ concerts_info| safe }}
     ;
 
-    const colors = ['black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple',
-        'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue',
-        'teal', 'aqua']
+    const colors = ['red', 'yellow', 'blue', 'green', 'lightblue', 'orange', 'pink', 'purple'];
 
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
@@ -24,6 +22,7 @@ Geoconcert
 
         var marker, i, content, infowindow;
         var markers = [];
+        var color_num = 0;
 
         infowindow = new google.maps.InfoWindow({
         })
@@ -37,6 +36,10 @@ Geoconcert
                 marker = new google.maps.Marker({
                     position: concert_info[selected_artist].concerts[i].location,
                     label: (i + 1).toString(),
+                    icon: {
+                        url: 'https://maps.google.com/mapfiles/ms/icons/' + colors[color_num] + '.png',
+                        labelOrigin: new google.maps.Point(16, 10)
+                    }
                 })
                 markers.push(marker)
 
@@ -60,6 +63,7 @@ Geoconcert
                     };
                 })(marker, content, infowindow));
             }
+            color_num += 1;
         }
 
         // Add a marker clusterer to manage the markers.
