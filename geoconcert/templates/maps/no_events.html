@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    No events found · Geoconcert
+{% endblock title %}
+
 {% block content %}
 <a href="{{ url_for('maps.preferences') }}">Go back</a>
 <p>No events found for:</p>

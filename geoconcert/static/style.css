@@ -5,7 +5,7 @@ body {
 }
 
 .navbar {
-    background-color: #ffffff;
+    background-color: none;
 }
 
 .nav-link {
@@ -16,6 +16,12 @@ body {
     background-color: #1DB954;
     border-color: black;
     
+}
+
+.bg-image {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Google Maps options */

@@ -1,61 +1,82 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- App CSS-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <!-- App CSS-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <!-- JQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <!-- JQuery -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+
   {% block head %}{% endblock head %}
 
-  </head>
-  <body>
+</head>
+
+<body>
+  <div class="bg-image" style="background-image: url('{{ url_for('static', filename='images/bg.png') }}');">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{{ url_for('auth.login') }}">
-            <!-- VERY PROVISIONAL LOGO -->
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="A planet with a musical note on top." width="30" height="30" class="d-inline-block align-text-top">
-            Geoconcert</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('maps.about') }}">About</a>
-              </li>
-            </ul>
-          </div>
-          {% if session.logged_in %}
-          <a class="d-flex nav-link" id="login" href="{{ url_for('auth.logout')}}" class="btn btn-success rounded-pill my-2 py-2 pe-4">
-            <div class="d-flex align-items-center">
-                <img src="{{ url_for('static', filename='images/Spotify_Icon_RGB_Black.png') }}" alt="Spotify Icon" width="21px" height="21px" class="ms-1 me-2">LOG OUT
-            </div>
-          </a>
-          {% endif %}
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('auth.login') }}">
+          <!-- VERY PROVISIONAL LOGO -->
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="A planet with a musical note on top."
+            width="30" height="30" class="d-inline-block align-text-top">
+          Geoconcert
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('maps.about') }}">About</a>
+            </li>
+          </ul>
         </div>
-      </nav>  
+        {% if session.logged_in %}
+        <a class="d-flex nav-link" id="login" href="{{ url_for('auth.logout')}}"
+          class="btn btn-success rounded-pill my-2 py-2 pe-4">
+          <div class="d-flex align-items-center">
+            <img src="{{ url_for('static', filename='images/Spotify_Icon_RGB_Black.png') }}" alt="Spotify Icon"
+              width="21px" height="21px" class="ms-1 me-2">LOG OUT
+          </div>
+        </a>
+        {% endif %}
+      </div>
+    </nav>
     <title>{% block title %}{% endblock title %}</title>
-      <header>
-          {% block header %}{% endblock header %}
-      </header>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>             
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     {% endfor %}
-    {% block content %}{% endblock content %}
-  </body>
+    <div class="container-fluid">
+      <section class="row align-items-center">
+        <div class="col align-self-center d-flex justify-content-center">
+          <div class="bg-image"
+            style="background-image: url('{{ url_for('static', filename='images/content_bg.svg') }}');">
+            {% block content %}{% endblock content %}
+          </div>
+        </div>
+      </section>
+    </div>
+  {% block map %}{% endblock map %}
+  </div>
+
+</body>
+
 </html>
