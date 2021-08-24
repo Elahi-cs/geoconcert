@@ -5,11 +5,12 @@
 {% endblock title %}
 
 {% block content %}
+<div class="text-wrap text-break">
     <h2 id="about">About</h2>
     <p>Geoconcert is a web application that allows you to find future concerts from your favorite artists on a map.</p>
     <h2 id="how-does-it-work">How does it work?</h2>
     <p>
-        Geoconcert asks Spotify which artists are your favorite and then asks about those artists
+        Geoconcert asks Spotify for your favorite artists and then asks about those artists
         to the TicketMaster database. Then, it takes that information and renders it in a 
         Google Map so you can see where your favorite artists are playing, anywhere in
         the world!
@@ -31,5 +32,6 @@
         This data will not be stored for more than a day and can be immediately cleared by logging out.
         Your information will not be stored, sold to, nor shared with Third Parties in any way.</p>
     <h2 id="feedback">Feedback</h2>
-    <p>Any feature requests, found bugs, feedback, or music recommendations are welcome and can be sent to [email].</p> 
+    <p>Any feature requests, found bugs, feedback, or music recommendations are welcome and can be sent to [email].</p>
+</div>
 {% endblock content %}

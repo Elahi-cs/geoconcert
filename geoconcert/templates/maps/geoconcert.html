@@ -30,7 +30,6 @@ Geoconcert
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // The map() method here has nothing to do with the Google Maps API.
-        // TODO: Make a system to change the marker color for each artist.
         for (let selected_artist in concert_info) {
             for (i = 0; i < concert_info[selected_artist].concerts.length; i++) {
                 marker = new google.maps.Marker({

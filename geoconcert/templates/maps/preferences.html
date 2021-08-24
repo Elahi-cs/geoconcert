@@ -8,34 +8,49 @@ Preferences · Geoconcert
 {% endblock head %}
 
 {% block content %}
-<div class="mb-3 row">
-    <form method="POST">
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="start_date" class="col-sm-2 col-form-label">Start date:</label>
-                    <input type="date" id="start_date" name="start_date">
-                    <br>
-                    <label for="end_date" class="col-sm-2 col-form-label">End date:</label>
-                    <input type="date" id="end_date" name="end_date">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-check-inline required">
-                    {% for artist in top_artists %}
-                    <input class="form-check-input" type="checkbox" name="artists" value="{{ artist }}"
-                        id="{{ artist }}" onclick="requireCheckbox('form-check-input')">
+<form method="POST" class="row g-3 align-items-center">
+    <div class="col-6 mt-5">
+        <label for="start_date" class="col-sm-2 col-form-label">Start date:</label>
+        <input type="date" id="start_date" name="start_date">
+    </div>
+    <div class="col-6 mt-5">
+        <label for="end_date" class="col-sm-2 col-form-label">End date:</label>
+        <input type="date" id="end_date" name="end_date">
+    </div>
+    <div class="col-6">
+        <div class="form-check-inline required">
+            <ul class="list-group">
+            {% for artist in top_artists[:10] %}
+            <li class="list-group-item">
+                <input class="form-check-input" type="checkbox" name="artists" value="{{ artist }}" id="{{ artist }}"
+                    onclick="requireCheckbox('form-check-input')">
+                <label class="form-check-label" for="flexCheckChecked">
+                    {{ artist }}
+                </label>
+                {% endfor %}
+            </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-check-inline required">
+            <ul class="list-group">
+                {% for artist in top_artists[10:] %}
+                <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" name="artists" value="{{ artist }}" id="{{ artist }}"
+                        onclick="requireCheckbox('form-check-input')">
                     <label class="form-check-label" for="flexCheckChecked">
                         {{ artist }}
                     </label>
-                    <br>
                     {% endfor %}
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary mb-3">Submit</button>
+                </li>
+                </ul>
         </div>
-    </form>
-</div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+    </div>
+</form>
 <script>
     $("form").submit(function (e) {
         var validationFailed = $('div.form-check-inline.required :checkbox:checked').length <= 0;

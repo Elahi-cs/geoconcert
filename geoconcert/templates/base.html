@@ -66,15 +66,12 @@
     {% endfor %}
     <div class="container-fluid">
       <section class="row align-items-center">
-        <div class="col align-self-center d-flex justify-content-center">
-          <div class="bg-image"
-            style="background-image: url('{{ url_for('static', filename='images/content_bg.svg') }}');">
-            {% block content %}{% endblock content %}
-          </div>
+        <div class="col-sm-9 bg-light rounded position-absolute top-50 start-50 translate-middle">
+          {% block content %}{% endblock content %}
         </div>
       </section>
     </div>
-  {% block map %}{% endblock map %}
+    {% block map %}{% endblock map %}
   </div>
 
 </body>
