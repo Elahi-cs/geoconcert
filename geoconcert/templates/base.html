@@ -29,10 +29,10 @@
   <div class="bg-image" style="background-image: url('{{ url_for('static', filename='images/bg.png') }}');">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('auth.login') }}">
-          <!-- VERY PROVISIONAL LOGO -->
-          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="A planet with a musical note on top."
-            width="30" height="30" class="d-inline-block align-text-top">
+        <a class="navbar-brand text-white fs-1" href="{{ url_for('auth.login') }}">
+          <!-- PROVISIONAL LOGO -->
+          <img src="{{ url_for('static', filename='images/logo_white.png') }}" alt="A planet with a musical note on top."
+          width="50px" height="50px" class="d-inline-block align-text-top">
           Geoconcert
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -40,13 +40,12 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('maps.about') }}">About</a>
+              <a class="nav-link fs-2 text-white" href="{{ url_for('maps.about') }}">ABOUT</a>
             </li>
-          </ul>
-        </div>
         {% if session.logged_in %}
+        <li>
         <a class="d-flex nav-link" id="login" href="{{ url_for('auth.logout')}}"
           class="btn btn-success rounded-pill my-2 py-2 pe-4">
           <div class="d-flex align-items-center">
@@ -54,7 +53,10 @@
               width="21px" height="21px" class="ms-1 me-2">LOG OUT
           </div>
         </a>
+        </li>
         {% endif %}
+      </ul>
+    </div>
       </div>
     </nav>
     <title>{% block title %}{% endblock title %}</title>
