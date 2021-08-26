@@ -46,12 +46,8 @@
             </li>
         {% if session.logged_in %}
         <li>
-        <a class="d-flex nav-link" id="login" href="{{ url_for('auth.logout')}}"
-          class="btn btn-success rounded-pill my-2 py-2 pe-4">
-          <div class="d-flex align-items-center">
-            <img src="{{ url_for('static', filename='images/Spotify_Icon_RGB_Black.png') }}" alt="Spotify Icon"
-              width="21px" height="21px" class="ms-1 me-2">LOG OUT
-          </div>
+        <a class="d-flex nav-link fs-2 text-white" id="login" href="{{ url_for('auth.logout')}}">
+          LOG OUT
         </a>
         </li>
         {% endif %}
