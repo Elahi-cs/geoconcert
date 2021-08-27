@@ -1,1 +1,1 @@
-web: gunicorn geoconcert:app
+web: gunicorn wsgi:app
