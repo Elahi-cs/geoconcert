@@ -31,8 +31,8 @@
       <div class="container-fluid">
         <a class="navbar-brand text-white fs-1" href="{{ url_for('auth.login') }}">
           <!-- PROVISIONAL LOGO -->
-          <img src="{{ url_for('static', filename='images/logo_white.png') }}" alt="A planet with a musical note on top."
-          width="50px" height="50px" class="d-inline-block align-text-top">
+          <img src="{{ url_for('static', filename='images/logo_white.png') }}"
+            alt="A planet with a musical note on top." width="50px" height="50px" class="d-inline-block align-text-top">
           GeoConcert
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -44,15 +44,15 @@
             <li class="nav-item">
               <a class="nav-link fs-2 text-white" href="{{ url_for('maps.about') }}">ABOUT</a>
             </li>
-        {% if session.logged_in %}
-        <li>
-        <a class="d-flex nav-link fs-2 text-white" id="login" href="{{ url_for('auth.logout')}}">
-          LOG OUT
-        </a>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
+            {% if session.logged_in %}
+            <li>
+              <a class="d-flex nav-link fs-2 text-white" id="login" href="{{ url_for('auth.logout')}}">
+                LOG OUT
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
     </nav>
     <title>{% block title %}{% endblock title %}</title>
@@ -63,13 +63,17 @@
     </div>
     {% endfor %}
     <div class="container-fluid">
-      <section class="row align-items-center">
-        <div class="col-sm-9 bg-light rounded position-absolute top-50 start-50 translate-middle">
+      <section class="row justify-content-md-center align-items-center">
+        <div class="col-sm-9 bg-light rounded">
           {% block content %}{% endblock content %}
         </div>
       </section>
     </div>
     {% block map %}{% endblock map %}
+    <footer class="position-absolute bottom-0 text-white-50">
+      <p><a href="{{ url_for('auth.login') }}" class="text-white">GeoConcert</a> is a web app by <a
+          href="https://github.com/Elahi-cs/" class="text-white">Elahi Concha</a>.</p>
+    </footer>
   </div>
 
 </body>

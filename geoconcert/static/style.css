@@ -1,8 +1,12 @@
 /* Page styling options */
 
-body {
-    background-color: rgb(255, 255, 255);
-}
+/* html {
+    background: url(images/bg.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  } */
 
 .navbar {
     background-color: none;
@@ -26,15 +30,22 @@ body {
 
 /* Google Maps options */
 /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-       #map {
-        height: 100%;
-      }
-      
-      /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+* element that contains the map. */
+#map {
+height: 100%;
+width: 100%;
+margin: auto;
+padding: 10px;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+footer {
+    background-color: none;
+}

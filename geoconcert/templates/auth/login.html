@@ -5,6 +5,13 @@
 {% endblock title %}
 
 {% block content %}
+<div class="text-wrap text-break text-center">
+    <br>
+    <h1>Welcome to GeoConcert!</h1>
+    <p>GeoConcert allows you to find future concerts from your favorite artists on a map.</p>
+    <img style="border: 3px solid #1DB954; margin-bottom: 5px;" class="img-fluid" src="{{ url_for('static', filename='images/demo.jpg') }}">
+    <br>
+    <h3>Let's get started!</h3>
 <!-- Make a button with a link to auth_url to direct the user to the Spotify login page. -->
 <a id="login" href={{ auth_url }} class="btn btn-success rounded-pill my-2 py-2 pe-4">
     <div class='d-flex align-items-center'>
@@ -12,4 +19,5 @@
         SPOTIFY
     </div>
 </a>
+</div>
 {% endblock content %}
