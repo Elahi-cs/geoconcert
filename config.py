@@ -31,6 +31,7 @@ class ProdConfig(Config):
     DEBUG = False
     SHOW_DIALOG = False
     FLASK_ENV = "production"
+    REDIRECT_URI = "https://geoconcert.herokuapp.com/auth/login"
 
 class DevConfig(Config):
     """Development configuration."""
