@@ -4,7 +4,7 @@
 GeoConcert is a web app that allows you to find concerts for your favorite artists on a world map.
 
 ## Warning: Work in Progress
-Because of a recent update to the (Spotify Developer Terms)[https://developer.spotify.com/terms/], developers need to manually add users before they can authenticate with an app until Spotify has reviewed the application. If you want to use this application before then, send me an email and include your Spotify associated email address.
+Because of a recent update to the [Spotify Developer Terms](https://developer.spotify.com/terms/), developers need to manually add users before they can authenticate with an app until Spotify has reviewed the application. If you want to use this application before then, send me an email and include your Spotify associated email address.
 
 ## About
 
